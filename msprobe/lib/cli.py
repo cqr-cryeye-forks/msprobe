@@ -26,21 +26,22 @@ def cli():
 )
 @click.argument("target")
 def exch(target, verbose):
+    result_exch_list = []
 
     """Find Microsoft Exchange servers"""
 
     # Setting up our console logging
     with console.status("[bold green]Exchange Module Executing...") as status:
 
-        if verbose:
-            logging.basicConfig(
-                level="DEBUG",
-                format="%(message)s",
-                handlers=[RichHandler(rich_tracebacks=False, show_time=False)],
-            )
-            log = logging.getLogger("rich")
-            status.stop()
-            log.debug("Verbose logging enabled for module: exch")
+        # if verbose:
+        #     logging.basicConfig(
+        #         level="DEBUG",
+        #         format="%(message)s",
+        #         handlers=[RichHandler(rich_tracebacks=False, show_time=False)],
+        #     )
+        #     log = logging.getLogger("rich")
+        #     status.stop()
+        #     log.debug("Verbose logging enabled for module: exch")
 
         # First trying to find if an Exchange server exists
         exch_endpoint = exch_find(target)
@@ -77,12 +78,31 @@ def exch(target, verbose):
                 exch_ntlm_info,
             )
 
+            exch_dict = {'exch': [{'INFO': 'Exchange found!'},
+                                  {'URL': exch_endpoint},
+                                  {'VERSION': exch_version},
+                                  {'OWA': owa_exists},
+                                  {'EAC': ecp_exists},
+                                  {'DOMAIN': exch_ntlm_info},
+                                  {'URLS': [exch_ntlm_paths]}
+                                  ]}
+
+            return exch_dict
+
         else:
+            exch_dict = {'exch': [{'INFO': 'Exchange not found'},
+                                  {'URL': None},
+                                  {'VERSION': None},
+                                  {'OWA': None},
+                                  {'EAC': None},
+                                  {'DOMAIN': None},
+                                  {'URLS': [None]}
+                                  ]}
 
             # Logging a failure if no Exchange instance found
             console.log(f"Exchange not found: {target}", style="bold red")
             status.stop()
-
+            return exch_dict
 
 @click.command(no_args_is_help=True, context_settings=CONTEXT_SETTINGS)
 @click.option(
@@ -90,21 +110,20 @@ def exch(target, verbose):
 )
 @click.argument("target")
 def rdp(target, verbose):
-
     """Find Microsoft RD Web servers"""
 
     # Setting up our console logging
     with console.status("[bold green]RD Web Module Executing...") as status:
 
-        if verbose:
-            logging.basicConfig(
-                level="DEBUG",
-                format="%(message)s",
-                handlers=[RichHandler(rich_tracebacks=False, show_time=False)],
-            )
-            log = logging.getLogger("rich")
-            status.stop()
-            log.debug("Verbose logging enabled for module: rdp")
+        # if verbose:
+        #     logging.basicConfig(
+        #         level="DEBUG",
+        #         format="%(message)s",
+        #         handlers=[RichHandler(rich_tracebacks=False, show_time=False)],
+        #     )
+        #     log = logging.getLogger("rich")
+        #     status.stop()
+        #     log.debug("Verbose logging enabled for module: rdp")
 
         # First trying to find if an RD Web server exists
         rdpw_endpoint = rdpw_find(target)
@@ -130,11 +149,35 @@ def rdp(target, verbose):
                 rdpw_endpoint, rdpw_version, rdpw_info, rdpw_ntlm_path, rdpw_ntlm_info
             )
 
+            if rdpw_ntlm_path is True:
+                rdpw_ntlm_rpc = "TRUE"
+            elif not rdpw_ntlm_path:
+                rdpw_ntlm_rpc = "FALSE"
+
+            rdp_dict = {'exch': [{'INFO': 'RD Web found!'},
+                                  {'URL': rdpw_endpoint},
+                                  {'VERSION': rdpw_version},
+                                  {'DOMAIN': rdpw_ntlm_info[0]},
+                                  {'HOSTNAME': rdpw_ntlm_info[1]},
+                                  {'NTLM RPC': rdpw_ntlm_rpc},
+                                  {'RDPW INFO': [rdpw_info]}
+                                  ]}
+            return rdp_dict
+
         else:
 
             # Logging a failure if no RD Web instance found
             console.log(f"RD Web not found: {target}", style="bold red")
-            status.stop()
+            rdp_dict = {'rdp': [{'INFO': 'RD Web not found'},
+                                 {'URL': None},
+                                 {'VERSION': None},
+                                 {'DOMAIN': None},
+                                 {'HOSTNAME': None},
+                                 {'NTLM RPC': None},
+                                 {'RDPW INFO': [None]}
+                                 ]}
+
+            return rdp_dict
 
 
 @click.command(no_args_is_help=True, context_settings=CONTEXT_SETTINGS)
@@ -143,7 +186,6 @@ def rdp(target, verbose):
 )
 @click.argument("target")
 def adfs(target, verbose):
-
     """Find Microsoft ADFS servers"""
 
     # Setting up our console logging
@@ -193,11 +235,30 @@ def adfs(target, verbose):
                 adfs_ntlm_data,
             )
 
+            adfs_dict = {'adfs': [{'INFO': 'ADFS found!'},
+                                 {'URL': adfs_endpoint},
+                                 {'VERSION': adfs_version},
+                                 {'SSPWR': adfs_pwreset},
+                                 {'URLS': [adfs_ntlm_paths]},
+                                 {'DOMAIN': adfs_ntlm_data},
+                                 {'SERVICES': [adfs_services]}
+                                 ]}
+            return adfs_dict
+
         else:
 
             # Logging a failure if no RD Web instance found
             console.log(f"ADFS not found: {target}", style="bold red")
-            status.stop()
+
+            adfs_dict = {'adfs': [{'INFO': 'ADFS not found'},
+                                  {'URL': None},
+                                  {'VERSION': None},
+                                  {'SSPWR': None},
+                                  {'URLS': [None]},
+                                  {'DOMAIN': None},
+                                  {'SERVICES': [None]}
+                                  ]}
+            return adfs_dict
 
 
 @click.command(no_args_is_help=True, context_settings=CONTEXT_SETTINGS)
@@ -206,7 +267,6 @@ def adfs(target, verbose):
 )
 @click.argument("target")
 def skype(target, verbose):
-
     """Find Microsoft Skype servers"""
 
     # Setting up our console logging
@@ -255,12 +315,45 @@ def skype(target, verbose):
                 sfb_ntlm_data,
             )
 
+            if len(sfb_version) > 1:
+                sfb_version = f"{sfb_version[0]} ({sfb_version[1]})"
+
+            if sfb_ntlm_data is not None:
+                domain_data = sfb_ntlm_data
+            elif sfb_ntlm_data is None:
+                domain_data = "NOT DEFINED"
+
+            # TODO STRING OR LIST WITH URL PATHS?
+            # if len(sfb_ntlm_paths) != 0:
+            #     paths = "\n".join(item for item in sfb_ntlm_paths)
+            #     sfb_ntlm_paths = f"{paths}"
+
+            sfb_dict = {'skype': [{'INFO': 'Skype for Business found!'},
+                                  {'URL': sfb_endpoint},
+                                  {'VERSION': sfb_version},
+                                  {'Scheduler': sfb_scheduler},
+                                  {'Chat': sfb_chat},
+                                  {'DOMAIN': domain_data},
+                                  {'URLS': [sfb_ntlm_paths]}
+                                  ]}
+
+            return sfb_dict
+
         else:
 
             # Logging a failure if no SFB instance found
             console.log(
                 f"Skype for Business not found: {target}", style="bold red")
-            status.stop()
+            sfb_dict = {'skype': [{'INFO': 'Skype for Business not found!'},
+                                  {'URL': None},
+                                  {'VERSION': None},
+                                  {'Scheduler': None},
+                                  {'Chat': None},
+                                  {'DOMAIN': None},
+                                  {'URLS': [None]}
+                                  ]}
+
+            return sfb_dict
 
 
 @click.command(no_args_is_help=True, context_settings=CONTEXT_SETTINGS)
@@ -270,14 +363,25 @@ def skype(target, verbose):
 @click.argument("target")
 @click.pass_context
 def full(ctx, target, verbose):
-
     """Find all Microsoft supported by msprobe"""
+    final_results_list = []
 
-    ctx.forward(exch)
-    ctx.forward(rdp)
-    ctx.forward(adfs)
-    ctx.forward(skype)
+    data_exch = ctx.forward(exch)
+    final_results_list.append(data_exch)
 
+    data_rdp = ctx.forward(rdp)
+    final_results_list.append(data_rdp)
+
+    data_adfs = ctx.forward(adfs)
+    final_results_list.append(data_adfs)
+
+    data_skype = ctx.forward(skype)
+    final_results_list.append(data_skype)
+
+    # TODO Stopped here (+ retest where is list to make long string with paths or list)
+
+    with open('result.json', 'w') as file:
+        json.dump(final_results_list, file)
 
 # Defining commands
 cli.add_command(exch)

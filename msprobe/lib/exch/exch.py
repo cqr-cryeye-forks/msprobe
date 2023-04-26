@@ -1,8 +1,7 @@
 import re
 import requests
 import logging
-from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
+from requests.adapters import HTTPAdapter, Retry
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 from .ntlm import ntlmdecode
@@ -14,7 +13,6 @@ import pkg_resources
 # Dealing with SSL Warnings
 try:
     import requests.packages.urllib3
-
     requests.packages.urllib3.disable_warnings()
 except Exception:
     pass
@@ -50,6 +48,7 @@ def exch_find(target):
     # Crafting URL's and issuing requests
     for i in sd:
         url = f"https://{i}.{target}"
+
         try:
             response = requests_retry_session().get(
                 url, timeout=1, allow_redirects=False, verify=False

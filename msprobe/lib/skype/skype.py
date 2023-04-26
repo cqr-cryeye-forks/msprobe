@@ -1,7 +1,6 @@
 import re
 import requests
-from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
+from requests.adapters import HTTPAdapter, Retry
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup, Comment
 from .ntlm import ntlmdecode
@@ -256,6 +255,9 @@ def sfb_display(
 
     if sfb_ntlm_data is not None:
         table_sfb.add_row("DOMAIN", f"{sfb_ntlm_data}")
+
+    elif sfb_ntlm_data is None:
+        table_sfb.add_row("DOMAIN", "NOT DEFINED")
 
     if len(sfb_ntlm_paths) != 0:
         paths = "\n".join(item for item in sfb_ntlm_paths)

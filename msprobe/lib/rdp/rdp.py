@@ -1,6 +1,5 @@
 import requests
-from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
+from requests.adapters import HTTPAdapter, Retry
 import hashlib
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
@@ -47,11 +46,15 @@ def rdpw_find(target):
     # Crafting URL's and issuing requests
     for i in sd:
         url = f"https://{i}.{target}/RDWeb/Pages/en-US/login.aspx"
+        x=1
         try:
             response = requests_retry_session().get(
                 url, timeout=1, allow_redirects=False, verify=False
             )
+            a = response.status_code
+            x=1
         except requests.exceptions.RequestException:
+            x=1
             pass
         else:
             # Method for checking if discovered site is actually an RD Web instance
@@ -62,9 +65,8 @@ def rdpw_find(target):
                 pass
             else:
 
-                # If specified text in output, it is a vlid RD Web Access portal
+                # If specified text in output, it is a valid RD Web Access portal
                 if "RD Web Access" in content:
-
                     # Stripping the appended path from the url variable
                     url = f"https://{urlparse(url).hostname}"
                     return url
@@ -254,7 +256,11 @@ def rdpw_display(
     table_rdpw.add_row("HOSTNAME", f"{rdpw_ntlm_info[1]}")
 
     if rdpw_ntlm_path is True:
-        table_rdpw.add_row("NTLM RPC", "True")
+        table_rdpw.add_row("NTLM RPC", "TRUE")
+
+    elif not rdpw_ntlm_path:
+        table_rdpw.add_row("NTLM RPC", "FALSE")
+
 
     if rdpw_info is not None:
         for i, k in zip(rdpw_info[0::2], rdpw_info[1::2]):
