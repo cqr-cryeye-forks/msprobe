@@ -96,7 +96,7 @@ def exch(target, verbose):
             #                       }}
 
             """ just empty list? Handle no items in vue"""
-            exch_dict = {'exch': None}
+            exch_dict = {'exch': []}
 
             # Logging a failure if no Exchange instance found
             console.log(f"Exchange not found: {target}", style="bold red")
