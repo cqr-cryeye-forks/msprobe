@@ -61,7 +61,15 @@ def exch(target, verbose):
             elif len(exch_ntlm_paths) != 0:
                 exch_ntlm_info = exch_ntlm_parse(exch_ntlm_paths)
 
-            status.stop()
+            exch_dict_info = {'URL': exch_endpoint,
+                              'VERSION': exch_version,
+                              'OWA': owa_exists,
+                              'EAC': ecp_exists,
+                              'DOMAIN': exch_ntlm_info,
+                              'URLS': exch_ntlm_paths}
+
+            exch_dict = {'service': 'Microsoft Exchange', 'data': exch_dict_info}
+
 
             # Displaying info we found
             exch_display(
@@ -72,15 +80,6 @@ def exch(target, verbose):
                 exch_ntlm_paths,
                 exch_ntlm_info,
             )
-
-            exch_dict_info = {'URL': exch_endpoint,
-                              'VERSION': exch_version,
-                              'OWA': owa_exists,
-                              'EAC': ecp_exists,
-                              'DOMAIN': exch_ntlm_info,
-                              'URLS': exch_ntlm_paths}
-
-            exch_dict = {'service': 'Microsoft Exchange', 'data': exch_dict_info}
 
             return exch_dict
 
@@ -148,15 +147,6 @@ def rdp(target, verbose):
             else:
                 rdpw_info_list = None
 
-            # Displaying what we found
-            rdpw_display(
-                rdpw_endpoint,
-                rdpw_version,
-                rdpw_info,
-                rdpw_ntlm_path,
-                rdpw_ntlm_info
-            )
-
             rdp_dict_info = {'URL': rdpw_endpoint,
                              'VERSION': rdpw_version,
                              'DOMAIN': rdpw_ntlm_info[0],
@@ -165,6 +155,15 @@ def rdp(target, verbose):
                              'RDPW INFO': rdpw_info_list}
 
             rdp_dict = {'service': 'Microsoft RD Web', 'data': rdp_dict_info}
+
+            # Displaying what we found
+            rdpw_display(
+                rdpw_endpoint,
+                rdpw_version,
+                rdpw_info,
+                rdpw_ntlm_path,
+                rdpw_ntlm_info
+            )
 
             return rdp_dict
 
@@ -235,7 +234,14 @@ def adfs(target, verbose):
             else:
                 adfs_ntlm_data = "UNKNOWN"
 
-            status.stop()
+            adfs_dict_info = {'URL': adfs_endpoint,
+                              'VERSION': adfs_version,
+                              'SSPWR': adfs_pwreset,
+                              'URLS': adfs_ntlm_paths,
+                              'DOMAIN': adfs_ntlm_data,
+                              'SERVICES': adfs_services}
+
+            adfs_dict = {'service': 'Microsoft ADFS', 'data': adfs_dict_info}
 
             # Displaying what we found
             adfs_display(
@@ -246,15 +252,6 @@ def adfs(target, verbose):
                 adfs_ntlm_paths,
                 adfs_ntlm_data,
             )
-
-            adfs_dict_info = {'URL': adfs_endpoint,
-                              'VERSION': adfs_version,
-                              'SSPWR': adfs_pwreset,
-                              'URLS': adfs_ntlm_paths,
-                              'DOMAIN': adfs_ntlm_data,
-                              'SERVICES': adfs_services}
-
-            adfs_dict = {'service': 'Microsoft ADFS', 'data': adfs_dict_info}
 
             return adfs_dict
 
@@ -324,17 +321,6 @@ def skype(target, verbose):
             else:
                 sfb_ntlm_data = "UNKNOWN"
 
-            status.stop()
-
-            # Displaying what we found
-            sfb_display(
-                sfb_endpoint,
-                sfb_version,
-                sfb_scheduler,
-                sfb_chat,
-                sfb_ntlm_paths,
-                sfb_ntlm_data,
-            )
 
             if len(sfb_version) > 1:
                 sfb_version = f"{sfb_version[0]} ({sfb_version[1]})"
@@ -355,6 +341,17 @@ def skype(target, verbose):
                              'URLS': sfb_ntlm_paths}
 
             sfb_dict = {'service': 'Microsoft Skype', 'data': sfb_dict_info}
+
+            # Displaying what we found
+            sfb_display(
+                sfb_endpoint,
+                sfb_version,
+                sfb_scheduler,
+                sfb_chat,
+                sfb_ntlm_paths,
+                sfb_ntlm_data,
+            )
+
             return sfb_dict
 
         else:
