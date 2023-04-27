@@ -184,7 +184,7 @@ def rdp(target, verbose):
             #                     {'RDPW INFO': [None]}
             #                     ]}
 
-            rdp_dict = {'rdp': {}}
+            rdp_dict = {'rdp': []}
             return rdp_dict
 
 
@@ -275,7 +275,7 @@ def adfs(target, verbose):
             #                       {'SERVICES': [None]}
             #                       ]}
 
-            adfs_dict = {'adfs': {}}
+            adfs_dict = {'adfs': []}
             return adfs_dict
 
 
@@ -375,7 +375,7 @@ def skype(target, verbose):
             #                       {'URLS': [None]}
             #                       ]}
 
-            sfb_dict = {'skype': {}}
+            sfb_dict = {'skype': []}
             return sfb_dict
 
 
