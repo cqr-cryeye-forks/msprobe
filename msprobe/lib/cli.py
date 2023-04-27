@@ -70,6 +70,7 @@ def exch(target, verbose):
 
             exch_dict = {'service': 'Microsoft Exchange', 'data': exch_dict_info}
 
+            status.stop()
 
             # Displaying info we found
             exch_display(
@@ -156,6 +157,8 @@ def rdp(target, verbose):
 
             rdp_dict = {'service': 'Microsoft RD Web', 'data': rdp_dict_info}
 
+            status.stop()
+
             # Displaying what we found
             rdpw_display(
                 rdpw_endpoint,
@@ -234,6 +237,7 @@ def adfs(target, verbose):
             else:
                 adfs_ntlm_data = "UNKNOWN"
 
+
             adfs_dict_info = {'URL': adfs_endpoint,
                               'VERSION': adfs_version,
                               'SSPWR': adfs_pwreset,
@@ -242,6 +246,8 @@ def adfs(target, verbose):
                               'SERVICES': adfs_services}
 
             adfs_dict = {'service': 'Microsoft ADFS', 'data': adfs_dict_info}
+
+            status.stop()
 
             # Displaying what we found
             adfs_display(
@@ -341,6 +347,8 @@ def skype(target, verbose):
                              'URLS': sfb_ntlm_paths}
 
             sfb_dict = {'service': 'Microsoft Skype', 'data': sfb_dict_info}
+
+            status.stop()
 
             # Displaying what we found
             sfb_display(
