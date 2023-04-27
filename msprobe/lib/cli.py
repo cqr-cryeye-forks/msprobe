@@ -1,3 +1,5 @@
+import pathlib
+
 import click
 from .exch.exch import *
 from .rdp.rdp import *
@@ -400,10 +402,9 @@ def full(ctx, target, verbose):
     data_skype = ctx.forward(skype)
     final_results_list.append(data_skype)
 
-    # TODO Stopped here (+ retest where is list to make long string with paths or list)
-
-    with open('result.json', 'w') as file:
-        json.dump(final_results_list, file)
+    root_path = pathlib.Path(__file__).parent.parent.parent
+    result_file_path = root_path.joinpath("result.json")
+    result_file_path.write_text(json.dumps(final_results_list))
 
 
 # Defining commands
