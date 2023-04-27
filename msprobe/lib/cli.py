@@ -81,7 +81,7 @@ def exch(target, verbose):
                               'DOMAIN': exch_ntlm_info,
                               'URLS': exch_ntlm_paths}
 
-            exch_dict = {'server': 'Microsoft Exchange', 'data': exch_dict_info}
+            exch_dict = {'service': 'Microsoft Exchange', 'data': exch_dict_info}
 
             return exch_dict
 
@@ -96,7 +96,7 @@ def exch(target, verbose):
             #                       }}
 
             """ just empty list? Handle no items in vue"""
-            exch_dict = {'exch': None}
+            exch_dict = {'service': 'Microsoft Exchange', 'data': None}
 
             # Logging a failure if no Exchange instance found
             console.log(f"Exchange not found: {target}", style="bold red")
@@ -166,7 +166,7 @@ def rdp(target, verbose):
                              'NTLM RPC': rdpw_ntlm_path,
                              'RDPW INFO': rdpw_info_list}
 
-            rdp_dict = {'server': 'Microsoft RD Web', 'data': rdp_dict_info}
+            rdp_dict = {'service': 'Microsoft RD Web', 'data': rdp_dict_info}
 
             return rdp_dict
 
@@ -184,7 +184,7 @@ def rdp(target, verbose):
             #                     {'RDPW INFO': [None]}
             #                     ]}
 
-            rdp_dict = {'rdp': None}
+            rdp_dict = {'service': 'Microsoft RD Web', 'data': None}
             return rdp_dict
 
 
@@ -257,7 +257,7 @@ def adfs(target, verbose):
                               'DOMAIN': adfs_ntlm_data,
                               'SERVICES': adfs_services}
 
-            adfs_dict = {'server': 'Microsoft ADFS', 'data': adfs_dict_info}
+            adfs_dict = {'service': 'Microsoft ADFS', 'data': adfs_dict_info}
 
             return adfs_dict
 
@@ -275,7 +275,7 @@ def adfs(target, verbose):
             #                       {'SERVICES': [None]}
             #                       ]}
 
-            adfs_dict = {'adfs': None}
+            adfs_dict = {'service': 'Microsoft ADFS', 'data': None}
             return adfs_dict
 
 
@@ -358,7 +358,7 @@ def skype(target, verbose):
                              'DOMAIN': domain_data,
                              'URLS': sfb_ntlm_paths}
 
-            sfb_dict = {'server': 'Microsoft Skype', 'data': sfb_dict_info}
+            sfb_dict = {'service': 'Microsoft Skype', 'data': sfb_dict_info}
             return sfb_dict
 
         else:
@@ -375,7 +375,7 @@ def skype(target, verbose):
             #                       {'URLS': [None]}
             #                       ]}
 
-            sfb_dict = {'skype': None}
+            sfb_dict = {'service': 'Microsoft Skype', 'data': None}
             return sfb_dict
 
 
