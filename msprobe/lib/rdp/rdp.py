@@ -166,6 +166,7 @@ def rdpw_get_info(url):
             response = requests_retry_session().get(
                 info_url, allow_redirects=False, verify=False, timeout=1
             )
+            x=1
             soup = BeautifulSoup(response.content, "lxml", features="xml")
             form = soup.find("form", attrs={"id": "FrmLogin"})
             inputs = form.findAll("input")
@@ -260,7 +261,6 @@ def rdpw_display(
 
     elif not rdpw_ntlm_path:
         table_rdpw.add_row("NTLM RPC", "FALSE")
-
 
     if rdpw_info is not None:
         for i, k in zip(rdpw_info[0::2], rdpw_info[1::2]):

@@ -285,16 +285,16 @@ def adfs_display(
         table_adfs.add_row("DOMAIN", f"{adfs_ntlm_data}")
 
     if len(adfs_services) > 10:
-        print("Service list > 10")
-        print("Y to display all.")
-        print("N to display 10.")
-        reply = str(input("(Y/n): ")).lower().strip()
-        if reply[:1] == "y" or reply[:1] == "":
-            services = "\n".join(item for item in adfs_services)
-            table_adfs.add_row("SERVICES", f"{services}")
-        elif reply[:1] == "n":
-            services = "\n".join(item for item in adfs_services[:10])
-            table_adfs.add_row("SERVICES", f"{services}")
+        # print("Service list > 10")
+        # print("Y to display all.")
+        # print("N to display 10.")
+        # reply = str(input("(Y/n): ")).lower().strip()
+
+        services = "\n".join(item for item in adfs_services)
+        table_adfs.add_row("SERVICES", f"{services}")
+        # elif reply[:1] == "n":
+        #     services = "\n".join(item for item in adfs_services[:10])
+        #     table_adfs.add_row("SERVICES", f"{services}")
     else:
         services = "\n".join(item for item in adfs_services)
         table_adfs.add_row("SERVICES", f"{services}")
