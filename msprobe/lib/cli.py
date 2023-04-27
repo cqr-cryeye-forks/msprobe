@@ -73,8 +73,7 @@ def exch(target, verbose):
                 exch_ntlm_info,
             )
 
-            exch_dict_info = {'INFO': 'Exchange found!',
-                              'URL': exch_endpoint,
+            exch_dict_info = {'URL': exch_endpoint,
                               'VERSION': exch_version,
                               'OWA': owa_exists,
                               'EAC': ecp_exists,
@@ -158,8 +157,7 @@ def rdp(target, verbose):
                 rdpw_ntlm_info
             )
 
-            rdp_dict_info = {'INFO': 'RD Web found!',
-                             'URL': rdpw_endpoint,
+            rdp_dict_info = {'URL': rdpw_endpoint,
                              'VERSION': rdpw_version,
                              'DOMAIN': rdpw_ntlm_info[0],
                              'HOSTNAME': rdpw_ntlm_info[1],
@@ -249,8 +247,7 @@ def adfs(target, verbose):
                 adfs_ntlm_data,
             )
 
-            adfs_dict_info = {'INFO': 'ADFS found!',
-                              'URL': adfs_endpoint,
+            adfs_dict_info = {'URL': adfs_endpoint,
                               'VERSION': adfs_version,
                               'SSPWR': adfs_pwreset,
                               'URLS': adfs_ntlm_paths,
@@ -350,8 +347,7 @@ def skype(target, verbose):
             if len(sfb_ntlm_paths) == 0:
                 sfb_ntlm_paths = None
 
-            sfb_dict_info = {'INFO': 'Skype for Business found!',
-                             'URL': sfb_endpoint,
+            sfb_dict_info = {'URL': sfb_endpoint,
                              'VERSION': sfb_version,
                              'Scheduler': sfb_scheduler,
                              'Chat': sfb_chat,
